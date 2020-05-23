@@ -1,0 +1,56 @@
+{
+  "_comment": "does not work, ports issue, DO NOT USE THIS VERSION",
+  "captainVersion": "2",
+  "displayName": "pi-hole",
+  "description": "Pi-hole is dns liar to remove advertising and secure your internet browse usage.",
+  "dockerCompose": {
+    "version": "2",
+    "services": {
+      "$$cap_appname": {
+        "documentation": "Taken from https://hub.docker.com/r/pihole/pihole/",
+        "containerHttpPort": "443",
+        "image": "pihole/pihole:$$cap_pihole_version",
+        "ports": [
+         "53:53/tcp",
+         "53:53/udp",
+         "67:67/udp",
+         "80:80/tcp",
+         "443:443/tcp"
+        ],
+        "volumes": [
+          "$$cap_appname-data:/etc/pihole",
+          "$$cap_appname-data-mask:/etc/dnsmasq.d"
+        ],
+        "restart": "unless-stopped",
+        "environment": {
+          "TZ": "$$cap_timezone",
+          "WEBPASSWORD": "$$cap_password"
+        }
+      }
+    }
+  },
+  "instructions": {
+    "start": "Pihole is an DNS liar tool.\nThe process will deploy the App.\nThe process will take about a minute for the process to finish.",
+    "end": "Pihole is deployed and available as $$cap_appname ."
+  },
+  "variables": [
+    {
+      "id": "$$cap_timezone",
+      "label": "Application timezone",
+      "defaultValue": "Europe/Paris",
+      "description": "Check out their wiki page for the valid timezone name https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+    },
+    {
+      "id": "$$cap_pihole_version",
+      "label": "Pi-hole Version",
+      "defaultValue": "v5.0",
+      "description": "Check out their Docker page for the valid tags https://hub.docker.com/r/pihole/pihole/tags",
+      "validRegex": "/^([^\\s^\\/])+$/"
+    },
+    {
+      "id": "$$cap_password",
+      "label": "Web password",
+      "description": "master password used for web interface"
+    }
+  ]
+}
