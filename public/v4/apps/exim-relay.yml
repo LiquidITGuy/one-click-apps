@@ -1,0 +1,41 @@
+captainVersion: 4
+services:
+    $$cap_appname:
+        image: devture/exim-relay:$$cap_exim-relay_version
+        volumes:
+            - $$cap_appname-db-data:/var/lib/mysql
+        restart: always
+        environment:
+            SMTP_USERNAME: $$cap_exim-relay_user
+            SMTP_PASSWORD: $$cap_exim-relay_pass
+        caproverExtra:
+            notExposeAsWebApp: 'true'
+caproverOneClickApp:
+    variables:
+        - id: $$cap_exim-relay_version
+          label: exim-relay Version
+          defaultValue: '4.95-r0-4'
+          description: Check out their Docker page for the valid tags https://registry.hub.docker.com/r/devture/exim-relay/tags
+          validRegex: /^([^\s^\/])+$/
+        - id: $$cap_exim-relay_user
+          label: Relay User
+          description: ''
+          validRegex: /.{1,}/
+        - id: $$cap_exim-relay_pass
+          label: Relay password
+          description: ''
+          validRegex: /.{1,}/
+          defaultValue: $$cap_gen_random_hex(16)
+    instructions:
+        start: >-
+            Exim is a message transfer agent (MTA) developed at the University of Cambridge for use on Unix systems connected to the Internet. It is freely available under the terms of the GNU General Public Licence.
+    
+            It will allow all you to add smtp server to all your deployed and future nextcloud app easily.    
+    
+            Enter your configuration parameters and click on next. It will take about a minute for the process to finish.
+        end: "Exim is deployed and available as srv-captain--$$cap_appname:8025 to other apps."
+    displayName: Exim Relay
+    # there is no official docker release of exim.
+    isOfficial: false
+    description: Exim Relay is a message transfer agent (MTA) developed at the University of Cambridge. https://www.exim.org/
+    documentation: Taken from https://github.com/devture/exim-relay and https://registry.hub.docker.com/r/devture/exim-relay
