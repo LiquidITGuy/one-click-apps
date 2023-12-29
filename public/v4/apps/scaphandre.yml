@@ -1,0 +1,26 @@
+captainVersion: 4
+services:
+    $$cap_appname:
+        image: hublo/scaphandre:$$cap_scaphandre_version
+        volumes:
+            - $$cap_appname-scaphandre-data:/app
+        restart: always
+caproverOneClickApp:
+    variables:
+        - id: $$cap_scaphandre_version
+          label: Scaphandre Version
+          defaultValue: '0.5'
+          description: Checkout their page for the valid tags https://hub.docker.com/r/hubblo/scaphandre/tags
+          validRegex: /^([^\s^\/])+$/
+    instructions:
+        start: >-
+            Scaphandre [skafɑ̃dʁ] is a metrology agent dedicated to electrical power consumption metrics. The goal of the project is to permit to any company or individual to measure the power consumption of its tech services and get this data in a convenient form, sending it through any monitoring or data analysis toolchain.
+
+        end: >-
+            It's done! 🔥 
+            Your scaphandre instance is available at http://$$cap_appname.$$cap_root_domain
+
+    displayName: scaphandre
+    isOfficial: true
+    description: Scaphandre is a metrology agent dedicated to electrical power consumption metrics.
+    documentation: Official docs are [here](https://hubblo-org.github.io/scaphandre-documentation/index.html) and [here](https://hubblo-org.github.io/scaphandre-documentation/)
